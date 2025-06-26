@@ -1,87 +1,60 @@
 // src/components/Checklist.jsx
 import React, { useEffect, useState } from "react";
-import { db, auth } from "../firebase/firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-
- // 👈 Force reload to fetch new progress & heatmap
-
-
-const markTaskAsDone = async (category, task, index, isChecked, userId) => {
-  const today = new Date().toISOString().split("T")[0]; // yyyy-mm-dd
-
-  await setDoc(doc(db, "users", userId, "completions", today), {
-    [category]: {
-      [index]: isChecked,
-    },
-  }, { merge: true });
-};
 const Checklist = () => {
   const [tasks, setTasks] = useState({ physical: [], mental: [], spiritual: [] });
-  const [checked, setChecked] = useState({});
+  const [checkedItems, setCheckedItems] = useState({
+    physical: [],
+    mental: [],
+    spiritual: [],
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-
-      const docRef = doc(db, "users", user.uid);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        setTasks(data.tasks || {});
-      }
+    const storedTasks = {
+      physical: JSON.parse(localStorage.getItem("physical")) || [],
+      mental: JSON.parse(localStorage.getItem("mental")) || [],
+      spiritual: JSON.parse(localStorage.getItem("spiritual")) || [],
     };
+    setTasks(storedTasks);
 
-    fetchTasks();
+    // Initialize checkedItems with false values
+    setCheckedItems({
+      physical: new Array(storedTasks.physical.length).fill(false),
+      mental: new Array(storedTasks.mental.length).fill(false),
+      spiritual: new Array(storedTasks.spiritual.length).fill(false),
+    });
   }, []);
 
   const handleCheck = (category, index) => {
-    const key = `${category}_${index}`;
-    setChecked((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
-   
-  const [checkedItems, setCheckedItems] = useState({
-  physical: [],
-  mental: [],
-  spiritual: [],
-});
-
-  const handleSubmit = async () => {
-  const user = auth.currentUser;
-  if (!user) return;
-
-  const today = new Date().toISOString().split("T")[0];
-
-  // Count how many boxes were checked per category
-  const counts = {
-    physical: checkedItems.physical.filter(Boolean).length,
-    mental: checkedItems.mental.filter(Boolean).length,
-    spiritual: checkedItems.spiritual.filter(Boolean).length,
+    setCheckedItems((prev) => {
+      const updated = [...prev[category]];
+      updated[index] = !updated[index];
+      return { ...prev, [category]: updated };
+    });
   };
 
-  const todayCount = counts.physical + counts.mental + counts.spiritual;
+  const handleSubmit = () => {
+    const today = new Date().toISOString().split("T")[0];
 
-  const docRef = doc(db, "users", user.uid);
-  const docSnap = await getDoc(docRef);
-  const existingData = docSnap.exists() ? docSnap.data() : {};
+    // Save checked items & streak count to localStorage
+    const counts = {
+      physical: checkedItems.physical.filter(Boolean).length,
+      mental: checkedItems.mental.filter(Boolean).length,
+      spiritual: checkedItems.spiritual.filter(Boolean).length,
+    };
 
-  const updatedStreak = {
-    ...(existingData.streakLog || {}),
-    [today]: todayCount,
+    const todayCount = counts.physical + counts.mental + counts.spiritual;
+    const streakLog = JSON.parse(localStorage.getItem("streakLog")) || {};
+    streakLog[today] = todayCount;
+
+    localStorage.setItem("completedTasks", JSON.stringify(checkedItems));
+    localStorage.setItem("streakLog", JSON.stringify(streakLog));
+    localStorage.setItem("lastMarked", today);
+
+    navigate("/progress");
   };
-
-  await setDoc(docRef, {
-    completed: checkedItems,
-    lastMarked: today,
-    streakLog: updatedStreak,
-  }, { merge: true });
-
-  navigate("/progress");
-};
 
   return (
     <div className="checklist-container">
@@ -89,22 +62,21 @@ const Checklist = () => {
       {["physical", "mental", "spiritual"].map((category) => (
         <div key={category}>
           <h3>{category.charAt(0).toUpperCase() + category.slice(1)} Win</h3>
-          {tasks[category]?.map((task, index) => {
-            const key = `${category}_${index}`;
-            return (
-              <label key={key}>
-                <input
-                  type="checkbox"
-                  checked={checked[key] || false}
-                  onChange={() => handleCheck(category, index)}
-                />
-                {task}
-              </label>
-            );
-          })}
+          {tasks[category]?.map((task, index) => (
+            <label key={`${category}_${index}`} style={{ display: "block", marginBottom: "8px" }}>
+              <input
+                type="checkbox"
+                checked={checkedItems[category]?.[index] || false}
+                onChange={() => handleCheck(category, index)}
+              />
+              {" "}{task}
+            </label>
+          ))}
         </div>
       ))}
-      <button onClick={handleSubmit}>Submit Progress</button>
+      <button onClick={handleSubmit} style={{ marginTop: "1rem" }}>
+        Submit Progress
+      </button>
     </div>
   );
 };

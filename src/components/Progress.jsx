@@ -1,8 +1,8 @@
 // src/components/Progress.jsx
 import React, { useEffect, useState } from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
-import StreakCalendar from "./StreakCalendar";
 import "react-circular-progressbar/dist/styles.css";
+import StreakCalendar from "./StreakCalendar";
 
 const Progress = () => {
   const [percentages, setPercentages] = useState({
@@ -12,21 +12,26 @@ const Progress = () => {
   });
 
   useEffect(() => {
-    const updated = {};
+    const calculateProgress = () => {
+      const updated = {};
 
-    ["physical", "mental", "spiritual"].forEach((cat) => {
-      const tasks = JSON.parse(localStorage.getItem(cat)) || [];
-      const completed = JSON.parse(localStorage.getItem("completedTasks")) || {};
-      const checked = completed[cat] || [];
+      // Fetch data from localStorage
+      const completedTasks = JSON.parse(localStorage.getItem("completedTasks")) || {};
 
-      const total = tasks.length;
-      const done = checked.filter((v) => v).length;
+      ["physical", "mental", "spiritual"].forEach((cat) => {
+        const tasks = JSON.parse(localStorage.getItem(cat)) || [];          // Array of tasks
+        const checked = completedTasks[cat] || [];                          // Array of true/false
+        const total = tasks.length;
+        const done = checked.filter(Boolean).length;
 
-      updated[cat] = total > 0 ? Math.round((done / total) * 100) : 0;
-    });
+        updated[cat] = total > 0 ? Math.round((done / total) * 100) : 0;
+      });
 
-    setPercentages(updated);
-  }, []);
+      setPercentages(updated);
+    };
+
+    calculateProgress();
+  }, []); // Runs once on mount
 
   const colors = {
     physical: "#4caf50",   // green
