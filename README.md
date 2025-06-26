@@ -71,8 +71,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 ======= -->
 
-# Daily Win Tracker
+# daily Win Tracker
 
 A productivity tracker to log daily physical, mental, and spiritual tasks.
 
->>>>>>> 951eff9e82bb18e3498ffc6cb32a350e9f2e1211
+<!-- >>>>>>> 951eff9e82bb18e3498ffc6cb32a350e9f2e1211 -->
