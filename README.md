@@ -1,3 +1,63 @@
+ 🧠 Daily Win Tracker
+
+A simple, clean, and motivating habit tracker web app that helps users log their daily wins across three areas: **Physical 💪, Mental 🧠, and Spiritual 🧘‍♀️**. 
+
+Built with **React**, **Firebase**, and deployed using **Vercel**, this project encourages daily consistency and visual streak tracking for self-growth.
+
+---
+
+ 🚀 Features
+
+- 🔐 **User Authentication** (Sign up / Log in securely with Firebase)
+- ✅ **Task Checklist** for physical, mental, and spiritual goals
+- 📊 **Circular Progress Bars** to visualize daily completion
+- 📅 **Streak Calendar** showing daily consistency
+- 💾 **LocalStorage Support** to save data (with option to scale back to Firestore)
+- 📱 **Responsive UI** across desktop and mobile devices
+- ☁️ **Deployed Live on Vercel**
+
+---
+
+## 🛠 Tech Stack
+
+| Frontend  | Backend / DB | Deployment |
+|-----------|--------------|------------|
+| React.js  | Firebase (Firestore + Auth) | Vercel |
+| CSS       | LocalStorage (fallback)     |        |
+
+---
+
+🧑‍💻 How It Works
+
+1. Users sign up and log in using Firebase Authentication.
+2. They create or view existing daily tasks in three categories.
+3. Each day, users check off completed tasks and submit them.
+4. Their progress is visualized through animated circular progress bars.
+5. A streak calendar reflects how consistent they've been!
+
+---
+
+📸 Screenshots (Optional)
+
+> _(Add screenshots here if you'd like: Checklist page, Progress page, Calendar, etc.)_
+
+---
+
+📂 Folder Structure
+
+src/
+│
+├── components/
+│ ├── AddTask.jsx
+│ ├── Checklist.jsx
+│ ├── Progress.jsx
+│ ├── StreakCalendar.jsx
+│ └── ...
+├── firebase/
+│ └── firebase.js
+├── App.js
+└── index.js
+
 <!-- <<<<<<< HEAD
 # Getting Started with Create React App
 
