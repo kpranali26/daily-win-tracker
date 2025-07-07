@@ -1,7 +1,6 @@
  🧠 Daily Win Tracker
 
 A simple, clean, and motivating habit tracker web app that helps users log their daily wins across three areas: **Physical 💪, Mental 🧠, and Spiritual 🧘‍♀️**. 
-
 Built with **React**, **Firebase**, and deployed using **Vercel**, this project encourages daily consistency and visual streak tracking for self-growth.
 
 ---
@@ -18,7 +17,7 @@ Built with **React**, **Firebase**, and deployed using **Vercel**, this project 
 
 ---
 
-## 🛠 Tech Stack
+ 🛠 Tech Stack
 
 | Frontend  | Backend / DB | Deployment |
 |-----------|--------------|------------|
@@ -34,12 +33,6 @@ Built with **React**, **Firebase**, and deployed using **Vercel**, this project 
 3. Each day, users check off completed tasks and submit them.
 4. Their progress is visualized through animated circular progress bars.
 5. A streak calendar reflects how consistent they've been!
-
----
-
-📸 Screenshots (Optional)
-
-> _(Add screenshots here if you'd like: Checklist page, Progress page, Calendar, etc.)_
 
 ---
 
@@ -128,11 +121,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-======= -->
-
-# daily Win Tracker
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify) 
+### daily Win Tracker
 
 A productivity tracker to log daily physical, mental, and spiritual tasks.
+======= -->
+
+
 
 <!-- >>>>>>> 951eff9e82bb18e3498ffc6cb32a350e9f2e1211 -->
